@@ -1,0 +1,51 @@
+$primary-color: #ff0000; // Crvena boja
+$background-color: #000000; // Crna boja
+
+.brzi-header {
+  background-color: $background-color;
+  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+
+    .brzi-header__opcije {
+      margin-top: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .brzi-header__logo {
+    position: absolute;
+    font-size: 2em;
+    color: $primary-color;
+    text-decoration: none;
+    margin-right: 10px; // Povećajte ili smanjite ovu vrijednost prema potrebi
+    margin-bottom: 10px; // Dodano
+  }
+
+  .brzi-header__opcije {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%; // Opcije će se proširiti na cijelu širinu
+
+    .brzi-header__opcija {
+      margin: 0 10px;
+      text-decoration: none;
+      color: $primary-color;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+
+      &:hover {
+        text-decoration: underline; // Dodano podcrtavanje na hover
+      }
+    }
+  }
+}

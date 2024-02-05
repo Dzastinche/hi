@@ -1,0 +1,70 @@
+.card {
+  width: 200px;
+  height: 300px;
+  perspective: 1000px;
+  margin: 10px;
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: transform 0.5s;
+  margin-bottom: 20px;
+}
+
+.card:hover .card-front {
+  transform: rotateY(180deg);
+}
+
+.card:hover .card-back {
+  transform: rotateY(0deg);
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-title {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.card-button {
+  display: block;
+  margin: 10px auto;
+  padding: 5px 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  text-align: center;
+  background-color: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-recipe {
+  font-size: 14px;
+}
+.recipes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &-plus {
+    background-color: red;
+  }
+  &-minus {
+    background-color: blue;
+  }
+}
