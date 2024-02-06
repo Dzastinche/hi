@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./burgercard.scss"; //
 const style = {
   backgroundImage:
@@ -7,7 +7,34 @@ const style = {
 };
 const Card = ({ recipe, ...props }) => {
   const allRecips = props.props;
-  console.log("karta", Object.values(allRecips));
+  const [burger, change] = useState(allRecips);
+  const changeSides = (uId, sign) => {
+    const state = Object.values(burger)[0];
+    let newState = [];
+    if (sign === "-") {
+      newState = state.filter((el) => el !== uId);
+      console.log(newState, state);
+    } else {
+      const finditem = state.find((el) => el === uId);
+      newState = [];
+      state.map((ele) => {
+        ele === uId && newState.includes(ele)
+          ? newState.push(`extra ${finditem}`)
+          : newState.push(ele);
+        console.log(
+          newState,
+          ele,
+          uId,
+          finditem,
+          "nzj",
+          newState.includes(ele)
+        );
+      });
+
+      console.log(newState, state);
+    }
+  };
+
   return (
     <div className="card">
       <div className="card-front" style={style}>
@@ -17,19 +44,35 @@ const Card = ({ recipe, ...props }) => {
       <div className="card-back">
         <h3 className="card-title">Recept</h3>
 
-        <p className="card-recipe">
-          {Object.values(allRecips)[0].map((el) => {
+        <div className="card-recipe">
+          {Object.values(burger)[0].map((el, i) => {
             return (
-              <div className="recipes">
+              <div className="recipes" id={i} key={i}>
                 <p>{el}</p>
                 <div>
-                  <button className="recipes-plus">+</button>
-                  <button className="recipes-minus">-</button>
+                  <button
+                    className="recipes-plus"
+                    onClick={() => {
+                      console.log(el);
+                      changeSides(el, "+");
+                    }}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="recipes-minus"
+                    onClick={() => {
+                      console.log(el);
+                      changeSides(el, "-");
+                    }}
+                  >
+                    -
+                  </button>
                 </div>
               </div>
             );
           })}
-        </p>
+        </div>
       </div>
     </div>
   );
