@@ -1,37 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./burgercard.scss"; //
+import { ReactReduxContext } from "react-redux";
 const style = {
   backgroundImage:
     "url('https://www.foodandwine.com/thmb/DI29Houjc_ccAtFKly0BbVsusHc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/crispy-comte-cheesburgers-FT-RECIPE0921-6166c6552b7148e8a8561f7765ddf20b.jpg')",
   backgroundSize: "cover",
 };
-const Card = ({ recipe, ...props }) => {
+const Card = (props) => {
   const allRecips = props.props;
   const [burger, change] = useState(allRecips);
-  const changeSides = (uId, sign) => {
-    const state = Object.values(burger)[0];
-    let newState = [];
+  //making new state for sides
+  const state = Object.values(burger)[0];
+  const [recipe, setRecipe] = useState(state);
+  const [normal, red] = useState([]);
+  useEffect(() => {}, [burger, recipe]);
+  const changeSides = (uId, sign, i) => {
+    const finditem = recipe.find((el) => el === uId);
+    let array = [...normal];
     if (sign === "-") {
-      newState = state.filter((el) => el !== uId);
-      console.log(newState, state);
+      const newRecipe = recipe.map((ele) => {
+        if (normal.includes(i)) {
+          const element = array.indexOf(i);
+          array.splice(element, 1);
+          return ele;
+        } else {
+          if (uId === ele && ele.includes("extra ")) {
+            array = array.filter((el) => el !== i);
+            red(array);
+            return ele.replace("extra", "");
+          } else {
+            array.includes(i) ? red(array) : array.push(i);
+            red(array);
+            return ele;
+          }
+        }
+      });
+      setRecipe(newRecipe);
     } else {
-      const finditem = state.find((el) => el === uId);
-      newState = [];
-      state.map((ele) => {
-        ele === uId && newState.includes(ele)
-          ? newState.push(`extra ${finditem}`)
-          : newState.push(ele);
-        console.log(
-          newState,
-          ele,
-          uId,
-          finditem,
-          "nzj",
-          newState.includes(ele)
-        );
+      const element = array.indexOf(i);
+      array.splice(element, 1);
+      red(array);
+      //cheking if the side exist
+      let newRecipe = recipe.map((ele) => {
+        if (ele.includes("extra")) {
+          return ele;
+        } else {
+          if (normal.includes(i)) {
+            array.splice(element, 1);
+            red(array);
+            return ele;
+          } else {
+            return ele == uId && finditem ? `extra ${ele}` : ele;
+          }
+        }
       });
 
-      console.log(newState, state);
+      setRecipe(newRecipe);
     }
   };
 
@@ -45,16 +69,19 @@ const Card = ({ recipe, ...props }) => {
         <h3 className="card-title">Recept</h3>
 
         <div className="card-recipe">
-          {Object.values(burger)[0].map((el, i) => {
+          {recipe.map((el, i) => {
             return (
-              <div className="recipes" id={i} key={i}>
+              <div
+                className={normal.includes(i) ? "recipes-red" : "recipes"}
+                id={i}
+                key={i}
+              >
                 <p>{el}</p>
                 <div>
                   <button
                     className="recipes-plus"
                     onClick={() => {
-                      console.log(el);
-                      changeSides(el, "+");
+                      changeSides(el, "+", i);
                     }}
                   >
                     +
@@ -62,8 +89,7 @@ const Card = ({ recipe, ...props }) => {
                   <button
                     className="recipes-minus"
                     onClick={() => {
-                      console.log(el);
-                      changeSides(el, "-");
+                      changeSides(el, "-", i);
                     }}
                   >
                     -
