@@ -7,62 +7,63 @@ const style = {
   backgroundSize: "cover",
 };
 const Card = (props) => {
-  const allRecips = props.props;
+  const allRecips = Object.values(props.props)[0];
   const [burger, change] = useState(allRecips);
   //making new state for sides
-  const state = Object.values(burger)[0];
-  const [recipe, setRecipe] = useState(state);
-  const [normal, red] = useState([]);
-  useEffect(() => {}, [burger, recipe]);
-  const changeSides = (uId, sign, i) => {
-    const finditem = recipe.find((el) => el === uId);
-    let array = [...normal];
-    if (sign === "-") {
-      const newRecipe = recipe.map((ele) => {
-        if (normal.includes(i)) {
-          const element = array.indexOf(i);
-          array.splice(element, 1);
-          return ele;
-        } else {
-          if (uId === ele && ele.includes("extra ")) {
-            array = array.filter((el) => el !== i);
-            red(array);
-            return ele.replace("extra", "");
-          } else {
-            array.includes(i) ? red(array) : array.push(i);
-            red(array);
-            return ele;
-          }
-        }
-      });
-      setRecipe(newRecipe);
-    } else {
-      const element = array.indexOf(i);
-      array.splice(element, 1);
-      red(array);
-      //cheking if the side exist
-      let newRecipe = recipe.map((ele) => {
-        if (ele.includes("extra")) {
-          return ele;
-        } else {
-          if (normal.includes(i)) {
-            array.splice(element, 1);
-            red(array);
-            return ele;
-          } else {
-            return ele == uId && finditem ? `extra ${ele}` : ele;
-          }
-        }
-      });
 
-      setRecipe(newRecipe);
+  const [recipe, setRecipe] = useState(allRecips);
+  const [normal, red] = useState([]);
+
+  const changeSides = (uId, sign, i) => {
+    let array = [];
+    const side = uId;
+    let index = normal.indexOf(i);
+    //when button + is clicked
+    if (sign === "+") {
+      switch (index !== -1) {
+        case true:
+          let newRed = normal.filter((el) => el !== i);
+          red(newRed);
+          break;
+        default:
+          array = recipe.map((singleSide) => {
+            if (side === singleSide && !singleSide.includes("Extra")) {
+              return `Extra ${singleSide}`;
+            } else {
+              return singleSide;
+            }
+          });
+          setRecipe(array);
+          break;
+      }
+    }
+    //when button - is clicked
+    else {
+      let newRed = [...normal];
+
+      array = recipe.map((singleSide) => {
+        console.log(singleSide === side, singleSide.includes("Extra"), normal);
+        if (singleSide === side) {
+          if (singleSide === side && singleSide.includes("Extra")) {
+            console.log(normal);
+            return singleSide.replace("Extra", "");
+          } else {
+            newRed.push(i);
+            return singleSide;
+          }
+        } else {
+          return singleSide;
+        }
+      });
+      red(newRed);
+      setRecipe(array);
     }
   };
 
   return (
     <div className="card">
       <div className="card-front" style={style}>
-        <h2 className="card-title">{Object.keys(allRecips)}</h2>
+        <h2 className="card-title">{Object.keys(props.props)}</h2>
         <button className="card-button">Prikaži recept</button>
       </div>
       <div className="card-back">
