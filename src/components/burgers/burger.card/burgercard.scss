@@ -1,8 +1,16 @@
+// Definiraj varijable za boje
+$black: #000;
+$red: #f00;
+$white: #fff;
+
 .card {
   width: 200px;
   height: 300px;
   perspective: 1000px;
   margin: 10px;
+  // Dodaj neki stil za karticu
+  border: 2px solid $white;
+  border-radius: 10px;
 }
 
 .card-front,
@@ -32,22 +40,32 @@
 .card-title {
   text-align: center;
   margin-top: 10px;
+  // Dodaj neki stil za naslov
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  // Promijeni boju slova u bijelu
+  color: $white;
 }
 
 .card-button {
   display: block;
   margin: 10px auto;
   padding: 5px 10px;
-  background-color: #3498db;
-  color: #fff;
+  // Promijeni boju dugmeta
+  background-color: $red;
+  // Promijeni boju slova u bijelu
+  color: $white;
   border: none;
   cursor: pointer;
+  // Dodaj neki stil za dugme
+  border-radius: 5px;
 }
 
 .card-back {
   transform: rotateY(180deg);
   text-align: center;
-  background-color: #ecf0f1;
+  // Promijeni boju pozadine
+  background-color: $black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,11 +80,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  & > p {
+    color: white;
+  }
   &-red {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: red;
+    // Koristi varijablu za boju
+    background-color: $red;
   }
   & p {
     margin-right: auto;
@@ -75,12 +97,15 @@
     margin-left: auto;
   }
   &-plus {
-    background-color: red;
+    // Koristi varijablu za boju
+    background-color: $red;
+    // Promijeni boju slova u bijelu
+    color: $white;
   }
   &-minus {
-    background-color: blue;
+    // Promijeni boju dugmeta
+    background-color: $black;
+    // Promijeni boju slova u crvenu
+    color: $red;
   }
-}
-.red {
-  background-color: red;
 }

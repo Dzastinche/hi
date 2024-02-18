@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./burgercard.scss"; //
-import { ReactReduxContext } from "react-redux";
+import { useSelector } from "react-redux";
 const style = {
   backgroundImage:
     "url('https://www.foodandwine.com/thmb/DI29Houjc_ccAtFKly0BbVsusHc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/crispy-comte-cheesburgers-FT-RECIPE0921-6166c6552b7148e8a8561f7765ddf20b.jpg')",
   backgroundSize: "cover",
 };
-const Card = (props) => {
-  const allRecips = Object.values(props.props)[0];
+const Card = ({ recipes }) => {
+  const allRecips = recipes;
   const [burger, change] = useState(allRecips);
   //making new state for sides
 
-  const [recipe, setRecipe] = useState(allRecips);
+  const [recipe, setRecipe] = useState(Object.values(allRecips)[0]);
   const [normal, red] = useState([]);
+  console.log(recipe, "i ove druge", recipes);
 
   const changeSides = (uId, sign, i) => {
     let array = [];
@@ -63,7 +64,7 @@ const Card = (props) => {
   return (
     <div className="card">
       <div className="card-front" style={style}>
-        <h2 className="card-title">{Object.keys(props.props)}</h2>
+        <h2 className="card-title">{Object.keys(recipes)}</h2>
         <button className="card-button">Prikaži recept</button>
       </div>
       <div className="card-back">
@@ -78,6 +79,7 @@ const Card = (props) => {
                 key={i}
               >
                 <p>{el}</p>
+                {normal.includes(i) ? <p>removed</p> : null}
                 <div>
                   <button
                     className="recipes-plus"
