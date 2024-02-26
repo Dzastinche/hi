@@ -1,0 +1,44 @@
+.cart {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 30%; /* 30% širine ekrana */
+
+  background-color: white;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  transition: width 0.3s, height 0.3s;
+  overflow-y: auto; /* Dodajte ovaj overflow za slučaj da je sadržaj duži od visine korpe */
+
+  &-everything {
+    z-index: 100;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transition: right 0.5s;
+    & button {
+      position: relative;
+      display: block;
+      z-index: 1000;
+      width: 100px;
+      height: 50px;
+    }
+  }
+  @media (max-width: 768px) {
+    /* Prilagodba za male ekrane */
+    width: 100%; /* 50% širine ekrana */
+    height: 100%; /* 50% visine ekrana */
+    right: 0;
+    .cart-toggle {
+      display: block; /* Prikaži dugme na malim ekranima */
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+}

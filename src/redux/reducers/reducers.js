@@ -5,7 +5,7 @@ export const recipe = createSlice({
   name: "recipes",
   initialState,
   reducers: {
-    getRecipes: (state, action) => {
+    getAllRecipes: (state, action) => {
       return action.payload;
     },
     changeRecipes: (state, action) => {
@@ -13,5 +13,15 @@ export const recipe = createSlice({
     },
   },
 });
+export const cartBurgers = createSlice({
+  name: "recipesForCart",
+  initialState,
+  reducers: {
+    getRecipes: (state, action) => {
+      return [...state, action.payload];
+    },
+  },
+});
 
-export const { getRecipes, changeRecipes } = recipe.actions;
+export const { getAllRecipes, changeRecipes } = recipe.actions;
+export const { getRecipes } = cartBurgers.actions;

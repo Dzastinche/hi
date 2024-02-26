@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "./burgercard.scss"; //
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getRecipes } from "../../../redux/reducers/reducers";
+
 const style = {
   backgroundImage:
     "url('https://www.foodandwine.com/thmb/DI29Houjc_ccAtFKly0BbVsusHc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/crispy-comte-cheesburgers-FT-RECIPE0921-6166c6552b7148e8a8561f7765ddf20b.jpg')",
   backgroundSize: "cover",
 };
 const Card = ({ recipes }) => {
+  const dispatch = useDispatch();
   const allRecips = recipes;
+
   const [burger, change] = useState(allRecips);
   //making new state for sides
 
   const [recipe, setRecipe] = useState(Object.values(allRecips)[0]);
   const [normal, red] = useState([]);
-  console.log(recipe, "i ove druge", recipes);
-
+  const [editedRecipe, sendRecipe] = useState([...recipe]);
+  //working with buttons + and -
   const changeSides = (uId, sign, i) => {
     let array = [];
     const side = uId;
@@ -31,6 +35,10 @@ const Card = ({ recipes }) => {
             if (side === singleSide && !singleSide.includes("Extra")) {
               return `Extra ${singleSide}`;
             } else {
+              !editedRecipe.includes(side)
+                ? sendRecipe([...editedRecipe, side])
+                : console.log(editedRecipe);
+
               return singleSide;
             }
           });
@@ -47,8 +55,9 @@ const Card = ({ recipes }) => {
         if (singleSide === side) {
           if (singleSide === side && singleSide.includes("Extra")) {
             console.log(normal);
-            return singleSide.replace("Extra", "");
+            return singleSide.replace("Extra", "").trim();
           } else {
+            sendRecipe(editedRecipe.filter((el) => el !== singleSide));
             newRed.push(i);
             return singleSide;
           }
@@ -60,7 +69,10 @@ const Card = ({ recipes }) => {
       setRecipe(array);
     }
   };
-
+  const addBurgerToCart = () => {
+    console.log(recipe, editedRecipe);
+    dispatch(getRecipes(recipe));
+  };
   return (
     <div className="card">
       <div className="card-front" style={style}>
@@ -78,8 +90,9 @@ const Card = ({ recipes }) => {
                 id={i}
                 key={i}
               >
+                {normal.includes(i) ? <p>-</p> : null}
                 <p>{el}</p>
-                {normal.includes(i) ? <p>removed</p> : null}
+
                 <div>
                   <button
                     className="recipes-plus"
@@ -101,6 +114,13 @@ const Card = ({ recipes }) => {
               </div>
             );
           })}
+          <button
+            onClick={() => {
+              addBurgerToCart();
+            }}
+          >
+            add to Cart
+          </button>
         </div>
       </div>
     </div>

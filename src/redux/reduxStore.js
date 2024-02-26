@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { recipe } from "./reducers/reducers";
+import { recipe, cartBurgers } from "./reducers/reducers";
 
 export const store = configureStore({
-  reducer: { recipe: recipe.reducer },
+  reducer: { recipe: recipe.reducer, cartBurgers: cartBurgers.reducer },
 });
